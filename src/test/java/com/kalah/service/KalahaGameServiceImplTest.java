@@ -26,8 +26,7 @@ import java.util.Map;
 import static com.kalah.constant.KalahaGameConstant.GAME_ID_NOT_FOUND_GAME_DOES_NOT_EXIST_ERROR_CODE;
 import static com.kalah.constant.KalahaGameConstant.GAME_TERMINATED_EXCEPTION_GAME_OVER_ERROR_CODE;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 @SpringBootTest
 public class KalahaGameServiceImplTest {
@@ -66,9 +65,7 @@ public class KalahaGameServiceImplTest {
     @Test
     public void testForCreateGame() {
         KalahaGame game = kalahaGameService.createNewGame();
-        assertEquals("1", game.getId());
-//        assertNotNull(gameResponse.getUri());
-//        assertEquals("http://localhost:80/games/1", gameResponse.getUri());
+        assertEquals(1, game.getId());
 
     }
 
@@ -83,12 +80,10 @@ public class KalahaGameServiceImplTest {
                 .build();
         gameRepository.save(game);
 
-        KalahaGame game = kalahaGameService.movePlayerPitStones(game.getId(), 3);
-        assertEquals("1234", game.getId());
-//        assertNotNull(moveResponse.getUrl());
-//        assertEquals("http://localhost:80/games/1234", moveResponse.getUrl());
-        assertEquals("{1=6, 2=6, 3=0, 4=7, 5=7, 6=7, 7=1, 8=7, 9=7, 10=6, 11=6, 12=6, 13=6, 14=0}", game.getBoard().toString());
-        MatcherAssert.assertThat(game.getStatus(), CoreMatchers.is(game.getBoard()));
+        game = kalahaGameService.movePlayerPitStones(game.getId(), 3);
+        assertEquals(1234, game.getId());
+        assertEquals("[6, 6, 0, 7, 7, 7, 1, 7, 7, 6, 6, 6, 6, 0]", game.getBoard().values().toString());
+        assertEquals(KalahaGame.GameStatus.IN_PROGRESS, game.getStatus());
     }
 
 
@@ -103,12 +98,9 @@ public class KalahaGameServiceImplTest {
                 .player(KalahaGame.Player.FIRST_PLAYER).winner(KalahaGame.Player.FIRST_PLAYER.getName())
                 .build();
         gameRepository.save(game);
-        assertThatThrownBy(() -> kalahaGameService.movePlayerPitStones(1234, 3))
-                .isInstanceOf(KalahaGameException.class)
-                .hasMessageContaining(errorContentService.getErrorDescription(GAME_TERMINATED_EXCEPTION_GAME_OVER_ERROR_CODE,
-                        Collections.singletonList(game.getWinner())));
-
-
+        game = kalahaGameService.movePlayerPitStones(1234, 3);
+        assertEquals("The Game is over! Winner is: First Player",game.getMessage());
+        assertEquals(KalahaGame.Player.FIRST_PLAYER.getName(),game.getWinner());
     }
 
     @Test
@@ -121,12 +113,7 @@ public class KalahaGameServiceImplTest {
                 .player(KalahaGame.Player.FIRST_PLAYER)
                 .build();
         KalahaGame savedGame = gameRepository.save(game);
-        assertThatThrownBy(() -> kalahaGameService.movePlayerPitStones(savedGame.getId()+1, 3))
-                .isInstanceOf(KalahaGameException.class)
-                .hasMessageContaining(errorContentService.getErrorDescription(
-                        GAME_ID_NOT_FOUND_GAME_DOES_NOT_EXIST_ERROR_CODE,
-                        Collections.singletonList(String.valueOf(1235))));
-
-
+        savedGame = kalahaGameService.movePlayerPitStones(savedGame.getId()+1, 3);
+        assertNull(savedGame);
     }
 }

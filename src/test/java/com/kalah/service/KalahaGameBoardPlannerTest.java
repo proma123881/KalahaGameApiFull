@@ -112,6 +112,7 @@ public class KalahaGameBoardPlannerTest {
 
         PropertySource propertySource = loadTestDataFile();
         String[] testCases = ((String)propertySource.getProperty("Keys")).split(",");
+
         for(int i = 0; i < testCases.length; i++) {
             playScenario(propertySource,testCases[i]);
         }

@@ -36,7 +36,6 @@ public class KalahaGameController {
 
     /**
      * Instantiates a new kalaha game controller.
-     *  @param gameService        the game service
      * @param createModelWrapper the create model wrapper
      * @param kalahaGameService
      */

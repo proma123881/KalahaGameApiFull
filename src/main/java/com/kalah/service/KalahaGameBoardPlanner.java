@@ -60,7 +60,6 @@ public class KalahaGameBoardPlanner {
 
         }
         if (isValidPitIndex(pitId, game)) {
-            log.debug("-----Valid pit index to make a move --------gameId is--"+game.getId()+"--pitId is--"+pitId);
             Map<Integer, Integer> board = game.getBoard();
             int stoneCount = board.get(pitId);
             clearSelectedPitStones(pitId, board);

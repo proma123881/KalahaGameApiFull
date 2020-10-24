@@ -23,8 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
@@ -49,20 +48,20 @@ public class KalahaGameControllerTest {
 
     @Test
     public void testCreateNewGame() throws Exception {
-        mockMvc.perform(post("/games"))
+        mockMvc.perform(get("/start"))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(1));
     }
 
     @Test
     public void testPageNotFound() throws Exception {
-         mockMvc.perform(post("/gamess"))
+         mockMvc.perform(post("/playees"))
                 .andExpect(status().isNotFound());
 
     }
     @Test
     public void testMethodNotAllowed() throws Exception {
-        mockMvc.perform(put("/games"))
+        mockMvc.perform(put("/play"))
                 .andExpect(status().isMethodNotAllowed());
 
     }
@@ -88,7 +87,7 @@ public class KalahaGameControllerTest {
                 .build();
         gameRepository.save(game);
 
-        mockMvc.perform(put("/games/1234/pits/3"))
+        mockMvc.perform(get("/play?pits=3&gameId=1234"))
                 .andExpect(status().isOk())
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(jsonPath("$.id").value(1234))

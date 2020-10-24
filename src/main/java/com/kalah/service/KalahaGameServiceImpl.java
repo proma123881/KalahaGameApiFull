@@ -71,7 +71,7 @@ public class KalahaGameServiceImpl implements KalahaGameService {
     @Override
     public KalahaGame movePlayerPitStones(int gameId, int pitId) {
 
-        log.debug("-----To make a move --------gameId is--"+gameId+"--pitId is--"+pitId);
+        //log.info("-----To make a move --------gameId is--"+gameId+"--pitId is--"+pitId);
 
         KalahaGame game = gameRepository.findByGameId(gameId);
                 //.orElseThrow(() ->
@@ -95,7 +95,6 @@ public class KalahaGameServiceImpl implements KalahaGameService {
         } catch (KalahaGameException e)
         {
             game.message =  e.getMessage();
-            System.out.println(e.getMessage());
             return game;
         }
 

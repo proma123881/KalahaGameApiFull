@@ -58,16 +58,16 @@ public class KalahaGameInMemoryRepositoryImplTest {
 
     @Test
     public void testForFindByValidGameId() {
-        Optional<KalahaGame> optionalKalahGame = gameRepository.findByGameId(1234);
-        if (optionalKalahGame.isPresent()) {
-            assertEquals(1234, optionalKalahGame.get().getId());
-            assertEquals(KalahaGame.GameStatus.IN_PROGRESS, optionalKalahGame.get().getStatus());
-            assertEquals(KalahaGame.Player.SECOND_PLAYER, optionalKalahGame.get().getPlayer().getOppositePlayer());
+        KalahaGame game = gameRepository.findByGameId(1234);
+        if (game != null) {
+            assertEquals(1234, game.getId());
+            assertEquals(KalahaGame.GameStatus.IN_PROGRESS, game.getStatus());
+            assertEquals(KalahaGame.Player.SECOND_PLAYER, game.getPlayer().getOppositePlayer());
         }
     }
 
     @Test
     public void testForFindByInValidGameId() {
-        assertEquals(Optional.empty(), gameRepository.findByGameId(0));
+        assertEquals(null, gameRepository.findByGameId(0));
     }
 }

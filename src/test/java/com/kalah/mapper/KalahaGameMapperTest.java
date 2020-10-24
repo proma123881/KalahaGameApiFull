@@ -1,6 +1,5 @@
 package com.kalah.mapper;
 
-import com.kalah.exception.KalahaGameException;
 import com.kalah.model.KalahaBoard;
 import com.kalah.model.KalahaGame;
 import com.kalah.model.MoveResponse;
@@ -17,21 +16,17 @@ import org.springframework.boot.env.YamlPropertySourceLoader;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.env.PropertySource;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.kalah.constant.KalahaGameConstant.GAME_ID_NOT_FOUND_GAME_DOES_NOT_EXIST_ERROR_CODE;
 import static org.junit.Assert.assertEquals;
 
 @SpringBootTest
 public class KalahaGameMapperTest {
-    private KalahaGameBoardPlanner kalahaGameBoardPlanner;
     private ErrorContentService errorContentService;
     private  PropertySource errorContent;
     private final KalahGameInMemoryRepository gameRepository = KalahGameInMemoryRepositoryImpl.getInstance();
@@ -63,11 +58,7 @@ public class KalahaGameMapperTest {
 
     @Test
     public void testForGetNewGameResponse() {
-        KalahaGame kalahaGame = gameRepository.findByGameId(1234).orElseThrow(() ->
-                new KalahaGameException(GAME_ID_NOT_FOUND_GAME_DOES_NOT_EXIST_ERROR_CODE,
-                        errorContentService.getErrorDescription(
-                                GAME_ID_NOT_FOUND_GAME_DOES_NOT_EXIST_ERROR_CODE,
-                                Collections.singletonList(String.valueOf(1234))), HttpStatus.NOT_FOUND));
+        KalahaGame kalahaGame = gameRepository.findByGameId(1234);
         NewGameResponse gameResponse = gameMapper.getNewGameResponse(kalahaGame);
         assertEquals("1234", gameResponse.getId());
         assertEquals("http://localhost:80/games/1234", gameResponse.getUri());
@@ -75,11 +66,7 @@ public class KalahaGameMapperTest {
 
     @Test
     public void testForGetMovedGameResponse() {
-        KalahaGame kalahaGame = gameRepository.findByGameId(1234).orElseThrow(() ->
-                new KalahaGameException(GAME_ID_NOT_FOUND_GAME_DOES_NOT_EXIST_ERROR_CODE,
-                        errorContentService.getErrorDescription(
-                                GAME_ID_NOT_FOUND_GAME_DOES_NOT_EXIST_ERROR_CODE,
-                                Collections.singletonList(String.valueOf(1234))), HttpStatus.NOT_FOUND));
+        KalahaGame kalahaGame = gameRepository.findByGameId(1234);
         Map<Integer, Integer> existingBoard = kalahaGame.getBoard();
         existingBoard.put(existingBoard.get(KalahaBoard.FIRST_KALAH_INDEX.getValue()), 20);
         existingBoard.put(existingBoard.get(KalahaBoard.SECOND_KALAH_INDEX.getValue()), 10);
