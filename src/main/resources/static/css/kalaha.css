@@ -1,0 +1,63 @@
+.title {
+    font-size: 100px;
+    text-align: center;
+    margin-top: 50px;
+    color: #5cbf2a;
+    font-weight: bold;
+    font-family: 'Mouse Memoirs', sans-serif;
+}
+
+.title.lg{
+	font-size: 59px;
+}
+
+.gameBoard {
+    margin: auto;
+    font-family: 'Lekton', sans-serif;
+    font-size: 40px;
+    color: #777777;
+}
+
+.gameBoard thead td {
+    padding: 10px;
+}
+
+.container {
+    text-align: center;
+}
+
+.message {
+    margin: auto;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    font-family: 'Lekton', sans-serif;
+    font-size: 20px;
+    color: #777777;
+}
+
+a, a:link, a:visited{
+    text-decoration: none;
+    color:limegreen;
+}
+
+a:hover, a:active{
+    text-decoration: none;
+    color:coral !important;
+}
+
+.myButton{
+	border: 0;
+    background-color: #5cbf2a;
+    color: #fff;
+ 	padding: 8px 10px;
+    text-align: center;
+    border-radius: 5px;
+    box-shadow: 2px 2px 2px #ccc;
+}
+
+.myButton.lg{
+	    font-size: 30px;
+        padding: 10px 15px;
+}
+
+
